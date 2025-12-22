@@ -9,8 +9,8 @@ services:
       - 9411:9411 # Zipkin
       - 3100:3100 # Loki
       - 3500:3500 # Pyroscope
-      - 4318:4318 # OTLP
-      - 4317:4317 # OTLP
+      - 4318:4318 # OTLP/HTTP
+      - 4317:4317 # OTLP/gRPC
     environment:
       - GF_PANELS_DISABLE_SANITIZE_HTML=true
       - GF_PLUGINS_ENABLE_ALPHA=true
