@@ -1,0 +1,36 @@
+services:
+  grafana-otel-lgtm:
+    image: grafana/otel-lgtm:latest
+    container_name: otel-lgtm
+    ports:
+      - 3000:3000 # Grafana
+      - 9090:9090 # Prometheus
+      - 3200:3200 # tempo
+      - 9411:9411 # Zipkin
+      - 3100:3100 # Loki
+      - 3500:3500 # Pyroscope
+      - 4318:4318 # OTLP
+      - 4317:4317 # OTLP
+    environment:
+      - GF_PANELS_DISABLE_SANITIZE_HTML=true
+      - GF_PLUGINS_ENABLE_ALPHA=true
+      - GF_ALLOW_EMBEDDING=true
+      - GF_grafanaconThemes=true
+#      - ENABLE_LOGS_GRAFANA=true
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+      - GF_FEATURE_TOGGLES_ENABLE=provisioning,kubernetesDashboards
+      - TZ=Europe/Copenhagen
+      - LOKI_ARGS=--pattern-ingester.enabled=true
+    volumes:
+      - ./data/otel-lgtm-data:/data
+      - ./grafana/provisioning/dashboards:/otel-lgtm/grafana/conf/provisioning/dashboards #test1
+      - ./loki/loki-config.yaml:/otel-lgtm/loki-config.yaml
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0"   # max 4 CPU core
+          memory: 4g    # max 4 GiB RAM        
+volumes:
+  prometheus-data-lgtm:
+    driver: local

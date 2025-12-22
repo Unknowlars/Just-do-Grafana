@@ -1,0 +1,58 @@
+# OTLP access logs -> Alloy
+otlp:
+    grpc:
+      endpoint: "Grafana-otel-lgtm_IP_OR_HOSTNAME:4317"
+      insecure: true
+    serviceName: "traefik"
+    resourceAttributes:
+      service.namespace: "edge"
+      deployment.environment.name: "prod"
+
+experimental:
+  otlpLogs: true
+log:
+  level: "INFO"
+  format: "common"
+  maxSize: 100
+  maxBackups: 3
+  maxAge: 3
+  compress: true
+
+  # OTLP Traefik internal logs -> Alloy
+  otlp:
+    grpc:
+      endpoint: "Grafana-otel-lgtm_IP_OR_HOSTNAME:4317"
+      insecure: true
+    serviceName: "traefik"
+    resourceAttributes:
+      service.namespace: "edge"
+      deployment.environment.name: "prod"
+
+# OTLP metrics -> Alloy (OTLP-only)
+metrics:
+  addInternals: true
+  otlp:
+    grpc:
+      endpoint: "Grafana-otel-lgtm_IP_OR_HOSTNAME:4317"
+      insecure: true
+    serviceName: "traefik"
+    resourceAttributes:
+      service.namespace: "edge"
+      deployment.environment.name: "prod"
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
+    # pushInterval defaults to 10s; set if you want:
+    # pushInterval: "10s"
+
+# OTLP tracing -> Alloy -> Tempo
+tracing:
+  otlp:
+    grpc:
+      endpoint: "Grafana-otel-lgtm_IP_OR_HOSTNAME:4317"
+      insecure: true
+  sampleRate: 1.0
+  serviceName: "traefik"
+  resourceAttributes:
+    service.namespace: "edge"
+    deployment.environment.name: "prod"

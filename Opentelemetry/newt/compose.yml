@@ -1,0 +1,14 @@
+services:
+  newt:
+    image: fosrl/newt
+    container_name: newt
+    restart: unless-stopped
+    environment:
+      NEWT_METRICS_OTLP_ENABLED: "true"
+      # OTLP gRPC endpoint (include scheme to remove ambiguity)
+      NEWT_METRICS_INCLUDE_TUNNEL_ID: true
+      OTEL_EXPORTER_OTLP_ENDPOINT: "Grafana-otel-lgtm_IP_OR_HOSTNAME:4317" #updated otel
+      OTEL_EXPORTER_OTLP_INSECURE: "true"
+      PANGOLIN_ENDPOINT: https://PANGOLIN_ENDPOINT.com
+      NEWT_ID: xxxxx
+      NEWT_SECRET: xxxxxx
