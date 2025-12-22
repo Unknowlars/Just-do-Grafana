@@ -1,4 +1,7 @@
-# OTLP access logs -> Alloy
+experimental:
+  otlpLogs: true
+
+# OTLP access logs -> OTLP/gRPC-> Loki -> Grafana
 otlp:
     grpc:
       endpoint: "Grafana-otel-lgtm_IP_OR_HOSTNAME:4317"
@@ -8,27 +11,9 @@ otlp:
       service.namespace: "edge"
       deployment.environment.name: "prod"
 
-experimental:
-  otlpLogs: true
-log:
-  level: "INFO"
-  format: "common"
-  maxSize: 100
-  maxBackups: 3
-  maxAge: 3
-  compress: true
 
-  # OTLP Traefik internal logs -> Alloy
-  otlp:
-    grpc:
-      endpoint: "Grafana-otel-lgtm_IP_OR_HOSTNAME:4317"
-      insecure: true
-    serviceName: "traefik"
-    resourceAttributes:
-      service.namespace: "edge"
-      deployment.environment.name: "prod"
 
-# OTLP metrics -> Alloy (OTLP-only)
+# OTLP metrics -> OTLP/gRPC -> Promthues -> Grafana
 metrics:
   addInternals: true
   otlp:
@@ -45,7 +30,7 @@ metrics:
     # pushInterval defaults to 10s; set if you want:
     # pushInterval: "10s"
 
-# OTLP tracing -> Alloy -> Tempo
+# OTLP tracing -> OTLP/gRPC -> Tempo -> Grafana
 tracing:
   otlp:
     grpc:
