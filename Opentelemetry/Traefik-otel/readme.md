@@ -243,8 +243,10 @@ The compose contains resource limits. Adjust them to match your server if needed
 ## References
 
 - Repo: https://github.com/Unknowlars/Just-do-Grafana
+- Step by step guide: https://medium.com/@appletimedk/traefik-opentelemetry-otlp-grafana-otel-lgtm-stack-2f3aaec96624
 - Grafana OTEL LGTM: https://github.com/grafana/docker-otel-lgtm
 - Traefik OTLP / Observability docs: https://doc.traefik.io/traefik/reference/install-configuration/observability/metrics/
+
 
 ---
 
