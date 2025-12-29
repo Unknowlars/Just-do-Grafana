@@ -2,7 +2,7 @@ experimental:
   otlpLogs: true
 
 accessLog:
-  # OPTIONAL: keep filePath for local debugging; Alloy is no longer tailing this.
+  # Access log
   filePath: "/var/log/traefik/access.log"
   format: json
   bufferingSize: 100
