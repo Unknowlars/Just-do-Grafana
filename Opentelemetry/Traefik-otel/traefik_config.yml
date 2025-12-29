@@ -1,8 +1,47 @@
 experimental:
   otlpLogs: true
 
-# OTLP access logs -> OTLP/gRPC-> Loki -> Grafana
-otlp:
+accessLog:
+  # OPTIONAL: keep filePath for local debugging; Alloy is no longer tailing this.
+  filePath: "/var/log/traefik/access.log"
+  format: json
+  bufferingSize: 100
+
+  fields:
+    defaultMode: keep
+    headers:
+      defaultMode: drop
+      names:
+        CF-Connecting-IP: keep
+        X-Forwarded-For: keep
+        X-Real-IP: keep
+        CF-IPCountry: keep
+        CF-Ray: keep
+        User-Agent: keep
+        Authorization: drop
+        Cookie: drop
+
+  # OTLP access logs -> Alloy
+  otlp:
+    grpc:
+      endpoint: "Grafana-otel-lgtm_IP_OR_HOSTNAME:4317"
+      insecure: true
+    serviceName: "traefik"
+    resourceAttributes:
+      service.namespace: "edge"
+      deployment.environment.name: "prod"
+
+
+log:
+  level: "INFO"
+  format: "common"
+  maxSize: 100
+  maxBackups: 3
+  maxAge: 3
+  compress: true
+
+  # OTLP Traefik internal logs -> Alloy
+  otlp:
     grpc:
       endpoint: "Grafana-otel-lgtm_IP_OR_HOSTNAME:4317"
       insecure: true
